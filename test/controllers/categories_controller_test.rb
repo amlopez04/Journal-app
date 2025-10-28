@@ -38,4 +38,26 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     category.reload
     assert_equal "Updated Category", category.name
   end
+
+  test "should destroy category" do
+    sign_in @user, scope: :user
+    category = Category.create!(name: "Test Category", user: @user)
+    assert_difference("Category.count", -1) do
+      delete category_url(category)
+    end
+    assert_redirected_to new_category_url
+  end
+
+  test "should not allow user to view other user's category" do
+    other_user = User.create!(
+      email: "other@example.com",
+      password: "password123",
+      password_confirmation: "password123"
+    )
+    category = Category.create!(name: "Other User Category", user: other_user)
+    
+    sign_in @user, scope: :user
+    get category_url(category)
+    assert_response :forbidden
+  end
 end

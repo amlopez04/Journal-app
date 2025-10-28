@@ -1,0 +1,36 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1 class="mb-4">Edit Category</h1>
+
+    <%= form_with model: @category, class: "mb-4" do |form| %>
+      <% if @category.errors.any? %>
+        <div class="alert alert-danger">
+          <h4 class="alert-heading"><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h4>
+          <ul class="mb-0">
+            <% @category.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= form.label :name, class: "form-label fw-bold" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.submit "Update Category", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <div class="pt-3 border-top d-flex gap-2">
+      <%= link_to "← Back to Category", category_path(@category), class: "text-decoration-none me-3" %>
+      <%= link_to "Delete Category", category_path(@category), 
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure? This will delete all entries in this category!" },
+          class: "btn btn-danger" %>
+      <%= link_to "← Back to Categories", new_category_url, class: "text-decoration-none ms-auto" %>
+    </div>
+  </div>
+</div>
+
