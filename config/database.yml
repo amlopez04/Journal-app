@@ -21,18 +21,24 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: journal_app_production
-    username: journal_app
-    password: <%= ENV["JOURNAL_APP_DATABASE_PASSWORD"] %>
+    <% if ENV["DATABASE_URL"] %>
+    url: <%= ENV["DATABASE_URL"] %>
+    <% else %>
+    database: <%= ENV.fetch("DATABASE_NAME", "journal_app_production") %>
+    username: <%= ENV.fetch("DATABASE_USERNAME", "postgres") %>
+    password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
+    host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
+    <% end %>
   cache:
     <<: *primary_production
-    database: journal_app_production_cache
+    database: <%= ENV.fetch("DATABASE_NAME", "journal_app_production") %>_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: journal_app_production_queue
+    database: <%= ENV.fetch("DATABASE_NAME", "journal_app_production") %>_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: journal_app_production_cable
+    database: <%= ENV.fetch("DATABASE_NAME", "journal_app_production") %>_cable
     migrations_paths: db/cable_migrate
