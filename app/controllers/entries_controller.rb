@@ -1,8 +1,8 @@
 class EntriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_category
-  before_action :set_entry, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_entry_owner, only: [:edit, :update, :destroy]
+  before_action :set_entry, only: [ :show, :edit, :update, :destroy ]
+  before_action :ensure_entry_owner, only: [ :edit, :update, :destroy ]
 
   def new
     @entry = @category.entries.build

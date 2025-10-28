@@ -3,7 +3,7 @@ require "test_helper"
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = User.create!(
-      email: "test@example.com", 
+      email: "test@example.com",
       password: "password123",
       password_confirmation: "password123"
     )
@@ -55,7 +55,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       password_confirmation: "password123"
     )
     category = Category.create!(name: "Other User Category", user: other_user)
-    
+
     sign_in @user, scope: :user
     get category_url(category)
     assert_response :forbidden

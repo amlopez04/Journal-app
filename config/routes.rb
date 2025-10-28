@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   root "categories#new"
 
   # Categories with nested entries
-  resources :categories, except: [:index] do
-    resources :entries, except: [:index]
+  resources :categories, except: [ :index ] do
+    resources :entries, except: [ :index ]
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
